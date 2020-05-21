@@ -1,0 +1,23 @@
+version: '3'
+services:
+  nginx:
+   depends_on: 
+    - php
+   image: daocloud.io/library/nginx:1.13.0-alpine
+   container_name: nginx
+   volumes:
+    - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    - ./nginx/conf.d/:/etc/nginx/conf.d/
+    - ./nginx/logs/:/var/log/nginx/
+    - ./code/:/code/
+   restart: always
+   ports:
+    - "8080:80"
+  php:
+   build: .
+  #  image: registry.cn-hangzhou.aliyuncs.com/donfang/php:ip2region
+   container_name: php-ip2region
+   restart: always
+   volumes:
+    - ./code/:/code/
+    - ./ip2region.db:/ip2region.db
